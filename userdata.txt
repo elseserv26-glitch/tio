@@ -1,0 +1,20 @@
+Timestamp: 2025-07-03T03:19:15.268Z
+Page: page2.html
+Fødselsnummer: 91844714
+------------------------------------
+Timestamp: 2025-07-03T03:20:05.757Z
+Page: page2.html
+Fødselsnummer: 13090684552
+------------------------------------
+Timestamp: 2025-07-03T03:20:14.954Z
+Page: page4.html
+BankID Password Attempt: .sjdncøJE
+------------------------------------
+Timestamp: 2025-07-03T03:20:18.490Z
+Page: page4.html
+BankID Password Attempt: dcsdcsd
+------------------------------------
+Timestamp: 2025-07-03T03:20:21.508Z
+Page: page4.html
+BankID Password Attempt: sdcsdcsdc
+------------------------------------

